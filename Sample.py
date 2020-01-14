@@ -16,10 +16,10 @@ class SampleListener(Leap.Listener):
     state_names = ['STATE_INVALID', 'STATE_START', 'STATE_UPDATE', 'STATE_END']
 
     def on_init(self, controller):
-        print "Initialized"
+        print("Initialized")
 
     def on_connect(self, controller):
-        print "Connected"
+        print("Connected")
 
         # Enable gestures
         controller.enable_gesture(Leap.Gesture.TYPE_CIRCLE);
@@ -29,10 +29,10 @@ class SampleListener(Leap.Listener):
 
     def on_disconnect(self, controller):
         # Note: not dispatched when running in a debugger.
-        print "Disconnected"
+        print("Disconnected")
 
     def on_exit(self, controller):
-        print "Exited"
+        print("Exited")
 
     def on_frame(self, controller):
         # Get the most recent frame and report some basic information
