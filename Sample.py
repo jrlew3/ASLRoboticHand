@@ -17,10 +17,7 @@ class SampleListener(Leap.Listener):
     bone_names = ['Metacarpal', 'Proximal', 'Intermediate', 'Distal']
     state_names = ['STATE_INVALID', 'STATE_START', 'STATE_UPDATE', 'STATE_END']
 
-    def on_init(self, controller):            
-        with open('temp.csv', mode='w') as csv_file:
-            wr = csv.writer(csv_file, dialect='excel')
-        self.wr = wr
+    def on_init(self, controller):
         print("Initialized")
 
     def on_connect(self, controller):
@@ -99,7 +96,7 @@ class SampleListener(Leap.Listener):
                         for i in range(0,3):
                             input.append(diff[i])
 
-            with open('temp.csv', mode = 'ab') as csv_file:
+            with open('test1.csv', mode = 'ab') as csv_file:
                 wr = csv.writer(csv_file, dialect='excel')
                 wr.writerow(input)
                 csv_file.close()
