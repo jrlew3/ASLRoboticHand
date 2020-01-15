@@ -1,3 +1,5 @@
+// Fingers 1-5 are represented by servo numbers 1-5 (the thumb is finger 5) 
+
 #include <Wire.h>
 #include <Adafruit_MotorShield.h>
 #include <Adafruit_PWMServoDriver.h>
@@ -40,6 +42,7 @@ void setup() {
   normalizePosition(); 
 }
 
+// Specified finger is fully bent
 void bend(uint8_t servonum) { 
   Serial.println(servonum);
   for (uint16_t pulselen = SERVOMIN; pulselen < SERVOMAX; pulselen++) {
@@ -52,6 +55,7 @@ void bend(uint8_t servonum) {
   }
 }
 
+// Specified finger is slightly bent
 void curl(uint8_t servonum) { 
   Serial.println(servonum);
   for (uint16_t pulselen = SERVOMIN; pulselen < SERVOMAX; pulselen++) {
@@ -65,6 +69,26 @@ void curl(uint8_t servonum) {
 }
 
 void normalizePosition() { 
+  
+}
+
+void swingThumb() { 
+  
+}
+
+void curlWrist() { 
+  
+}
+
+void bendWrist() { 
+  
+}
+
+void rotateLeft() { 
+  
+}
+
+void rotateRight() { 
   
 }
 
