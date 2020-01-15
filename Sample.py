@@ -9,14 +9,18 @@
 import Leap, sys, thread, time
 from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
 import csv
-
+import numpy
+import datetime
 
 class SampleListener(Leap.Listener):
     finger_names = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky']
     bone_names = ['Metacarpal', 'Proximal', 'Intermediate', 'Distal']
     state_names = ['STATE_INVALID', 'STATE_START', 'STATE_UPDATE', 'STATE_END']
 
-    def on_init(self, controller):
+    def on_init(self, controller):            
+        with open('temp.csv', mode='w') as csv_file:
+            wr = csv.writer(csv_file, dialect='excel')
+        self.wr = wr
         print("Initialized")
 
     def on_connect(self, controller):
@@ -45,6 +49,10 @@ class SampleListener(Leap.Listener):
         # Get hands
         for hand in frame.hands:
             input = []
+            input.append(frame.id)
+            ts = frame.timestamp // 1000
+            dt = datetime.datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+            input.append(dt)
 
             handType = "Left hand" if hand.is_left else "Right hand"
 
@@ -85,8 +93,13 @@ class SampleListener(Leap.Listener):
                         bone.prev_joint,
                         bone.next_joint,
                         bone.direction))
+                    # Ignores the metacarpal thumb bone
+                    if self.finger_names[finger.type] != 'Thumb' or b != 0:
+                        diff = bone.next_joint-bone.prev_joint
+                        for i in range(0,3):
+                            input.append(diff[i])
 
-            with open('temp.csv', mode='w') as csv_file:
+            with open('temp.csv', mode = 'ab') as csv_file:
                 wr = csv.writer(csv_file, dialect='excel')
                 wr.writerow(input)
                 csv_file.close()
