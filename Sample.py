@@ -8,6 +8,7 @@
 
 import Leap, sys, thread, time
 from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
+import csv
 
 
 class SampleListener(Leap.Listener):
@@ -43,6 +44,7 @@ class SampleListener(Leap.Listener):
 
         # Get hands
         for hand in frame.hands:
+            input = []
 
             handType = "Left hand" if hand.is_left else "Right hand"
 
@@ -83,6 +85,11 @@ class SampleListener(Leap.Listener):
                         bone.prev_joint,
                         bone.next_joint,
                         bone.direction))
+
+            with open('temp.csv', mode='w') as csv_file:
+                wr = csv.writer(csv_file, dialect='excel')
+                wr.writerow(input)
+                csv_file.close()
 
         # Get tools
         for tool in frame.tools:
