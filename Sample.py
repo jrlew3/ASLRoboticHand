@@ -101,7 +101,9 @@ class SampleListener(Leap.Listener):
                             input.append(diff[i])
                     # Calculate fingertip distances
                     if self.bone_names[bone.type] == 'Distal' and self.finger_names != 'Thumb':
-                        input.append(thumb_tip-bone.next_joint)
+                        diff = thumb_tip-bone.next_joint
+                        for i in range(0,3):
+                            input.append(diff[i])
 
 
             with open('data/numbers/69.csv', mode = 'ab') as csv_file:
