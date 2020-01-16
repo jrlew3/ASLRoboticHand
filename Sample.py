@@ -73,6 +73,10 @@ class SampleListener(Leap.Listener):
                 arm.wrist_position,
                 arm.elbow_position))
 
+            
+            # Thumb tip location
+            thumb_tip = hand.fingers[0].bone(3).next_joint
+
             # Get fingers
             for finger in hand.fingers:
 
@@ -95,8 +99,12 @@ class SampleListener(Leap.Listener):
                         diff = bone.next_joint-bone.prev_joint
                         for i in range(0,3):
                             input.append(diff[i])
+                    # Calculate fingertip distances
+                    if self.bone_names[bone.type] == 'Distal' and self.finger_names != 'Thumb':
+                        input.append(thumb_tip-bone.next_joint)
 
-            with open('data/p3/mystery3.csv', mode = 'ab') as csv_file:
+
+            with open('data/numbers/69.csv', mode = 'ab') as csv_file:
                 wr = csv.writer(csv_file, dialect='excel')
                 wr.writerow(input)
                 csv_file.close()
