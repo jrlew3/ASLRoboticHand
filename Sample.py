@@ -112,7 +112,7 @@ class SampleListener(Leap.Listener):
 
 
 
-            with open('data/mint/mints*.csv', mode = 'ab') as csv_file:
+            with open('data/mint/test_m.csv', mode = 'ab') as csv_file:
                 wr = csv.writer(csv_file, dialect='excel')
                 wr.writerow(input)
                 csv_file.close()
