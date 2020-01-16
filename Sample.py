@@ -104,9 +104,15 @@ class SampleListener(Leap.Listener):
                         diff = thumb_tip-bone.next_joint
                         for i in range(0,3):
                             input.append(diff[i])
+                    # Calculate promximal end to thumb tip (m,n,t)
+                    if self.bone_names[bone.type] == 'Proximal' and self.finger_names != 'Thumb':
+                        diff = thumb_tip-bone.next_joint
+                        for i in range(0,3):
+                            input.append(diff[i])
 
 
-            with open('data/close/smut.csv', mode = 'ab') as csv_file:
+
+            with open('data/mint/mints*.csv', mode = 'ab') as csv_file:
                 wr = csv.writer(csv_file, dialect='excel')
                 wr.writerow(input)
                 csv_file.close()
