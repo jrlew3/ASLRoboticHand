@@ -106,7 +106,7 @@ class SampleListener(Leap.Listener):
                             input.append(diff[i])
 
 
-            with open('data/numbers/69.csv', mode = 'ab') as csv_file:
+            with open('data/close/smut.csv', mode = 'ab') as csv_file:
                 wr = csv.writer(csv_file, dialect='excel')
                 wr.writerow(input)
                 csv_file.close()
