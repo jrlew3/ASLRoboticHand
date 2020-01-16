@@ -38,32 +38,17 @@ def test(fname):
             #if ch != prevchar:
             prevchar = ch
             print(ch)
+    print("")
 
-'''
-train('train1.csv', 1)
-train('train2.csv', 2)
-train('train3.csv', 3)'''
-train('traina.csv', 'a')
-train('testb.csv', 'b')
-train('trainc.csv', 'c')
+def trainer(folder):
+    for i in range(0,15):
+        filename = 'data/{}/train_{}.csv'.format(folder, chr(i + 97))
+        train(filename, chr(i + 97))
 
+trainer('p1')
 
 clf = LinearDiscriminantAnalysis()
 clf.fit(X, y)
-'''
-test('test1.csv')
-print("")
-test('test2.csv')
-print("")
-test('test1to2.csv')
-print("")
-test('test3.csv')
-print("")
-test('mysterytest.csv')
-print("")'''
-test('testa.csv')
-print("")
-test('trainb.csv')
-print("")
-test('testc.csv')
-print("")
+
+test('data/mysterytest1.csv')
+test('data/mysterytest2.csv')
