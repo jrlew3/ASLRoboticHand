@@ -81,12 +81,12 @@ class SampleListener(Leap.Listener):
             middle_tip = hand.fingers[2].bone(3).next_joint
             ring_tip = hand.fingers[3].bone(3).next_joint
             pinky_tip = hand.fingers[4].bone(3).next_joint
-
+            '''
             # Thumb tip to palm position
             palm_thumb = thumb_tip-hand.palm_position
             for i in range(0,3):
                 input.append(palm_thumb[i])
-
+            '''
             # Get fingers
             for finger in hand.fingers:
 
@@ -98,8 +98,9 @@ class SampleListener(Leap.Listener):
 
                 #difference in top of finger to bottom
                 diff = finger.bone(4).next_joint - finger.bone(0).prev_joint
-                for i in range(0,3):
-                    input.append(diff[i])
+                # for i in range(0,3):
+                input.append(linalg.norm([diff[0], diff[1], diff[2]]))
+                #   input.append(diff[i])
 
 
                 # Get bones
@@ -132,22 +133,27 @@ class SampleListener(Leap.Listener):
                         for i in range(0,3):
                             input.append(diff[i])
                     '''
+            
+            '''
             #Get direction of thumb
             # print(hand.fingers[0].bone(3).direction)
             dx = hand.fingers[0].bone(3).direction[0]
             dz = hand.fingers[0].bone(3).direction[2]
             input.append(math.atan(dx/dz))
+            '''
 
             #IDEA 2: distance from tip to palm
-            dist0 = index_tip - hand.palm_position
-            dist1 = middle_tip - hand.palm_position
-            dist2 = ring_tip - hand.palm_position
-            dist3 = pinky_tip - hand.palm_position
+            dist0 = thumb_tip - hand.palm_position
+            dist1 = index_tip - hand.palm_position
+            dist2 = middle_tip - hand.palm_position
+            dist3 = ring_tip - hand.palm_position
+            dist4 = pinky_tip - hand.palm_position
 
             input.append(linalg.norm([dist0[0], dist0[1], dist0[2]]))
             input.append(linalg.norm([dist1[0], dist1[1], dist1[2]]))
             input.append(linalg.norm([dist2[0], dist2[1], dist2[2]]))
             input.append(linalg.norm([dist3[0], dist3[1], dist3[2]]))
+            input.append(linalg.norm([dist4[0], dist4[1], dist4[2]]))
 
             #IDEA 1: finger bend angle
             for i in range(0,5):
@@ -157,20 +163,30 @@ class SampleListener(Leap.Listener):
                 angle = math.acos(dprod)
                 input.append(angle)
 
+            #IDEA 3: knuckle slope (m,n,t)
+            for i in range(0,5):
+                boneT = hand.fingers[i].bone(2).direction
+                dy = boneT[1]
+                dz = boneT[2]
+                angle = math.atan(dy/dz)
+                input.append(angle)
+
+            # Wrist
+            input.append(normal.roll * Leap.RAD_TO_DEG)
 
             # Calculate consecutive fingertip distances
             if self.bone_names[bone.type] == 'Distal':
                 diff0 = index_tip-thumb_tip
                 diff1 = middle_tip-index_tip
                 diff2 = ring_tip-middle_tip
-                diff3 = pinky_tip-middle_tip
+                diff3 = pinky_tip-ring_tip
                 for i in range(0,3):
                     input.append(diff0[i])
                     input.append(diff1[i])
                     input.append(diff2[i])
                     input.append(diff3[i])
 
-            with open('data/visualizer/test_a.csv', mode = 'ab') as csv_file:
+            with open('data/fuckyou2/train_back.csv', mode = 'ab') as csv_file:
                 wr = csv.writer(csv_file, dialect='excel')
                 wr.writerow(input)
                 csv_file.close()
